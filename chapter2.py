@@ -35,3 +35,12 @@ for train_index, test_index in split.split(housing, housing["income_cat"]):
 ## 추가한 income_cat 특성을 각각 지움
 for set_ in (strat_train_set, strat_test_set):
     set_.drop("income_cat", axis = 1, inplace = True)
+
+## 훈련 세트에 대해서만 이용할 수 있도록 처리(단, 원본은 유지하기 위해 복사)
+housing = strat_train_set.copy()
+
+## 위도와 경도를 기준으로 데이터 분포를 그림 + 인구수가 많을수록 원이 더 큼 + 주택 가격을 색으로 표시
+housing.plot(kind = "scatter", x = "longitude", y = "latitude", alpha = 0.1, s = housing["population"]/100,
+            label = "population", figsize = (10, 7), c = "median_house_value", cmap = plt.get_cmap("jet"), colorbar = True, sharex = False)
+
+plt.show()
